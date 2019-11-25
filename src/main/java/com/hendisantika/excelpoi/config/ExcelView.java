@@ -2,13 +2,9 @@ package com.hendisantika.excelpoi.config;
 
 import com.hendisantika.excelpoi.entity.Karyawan;
 import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.springframework.web.servlet.view.document.AbstractExcelView;
+import org.apache.poi.ss.usermodel.*;
+import org.springframework.web.servlet.view.document.AbstractXlsView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,11 +22,11 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 
-public class ExcelView extends AbstractExcelView {
+public class ExcelView extends AbstractXlsView {
 
     @Override
     protected void buildExcelDocument(Map<String, Object> model,
-                                      HSSFWorkbook workbook, HttpServletRequest request, HttpServletResponse response) {
+                                      Workbook workbook, HttpServletRequest request, HttpServletResponse response) {
         // ambil data model yang dikirim oleh Spring Container
 
         // buat nama file
@@ -39,7 +35,8 @@ public class ExcelView extends AbstractExcelView {
         List<Karyawan> karyawans = (List<Karyawan>) model.get("karyawans");
 
         // buat sheet baru
-        HSSFSheet sheet = workbook.createSheet("Karyawan List");
+        Sheet sheet = workbook.createSheet("Karyawan List");
+
         sheet.setDefaultColumnWidth(30);
 
         // buat cell header
@@ -53,7 +50,7 @@ public class ExcelView extends AbstractExcelView {
         style.setFont(font);
 
         // buat row untuk header
-        HSSFRow header = sheet.createRow(0);
+        Row header = sheet.createRow(0);
 
         header.createCell(0).setCellValue("Id");
         header.getCell(0).setCellStyle(style);
@@ -70,7 +67,7 @@ public class ExcelView extends AbstractExcelView {
         int baris = 1;
 
         for (Karyawan karyawan : karyawans) {
-            HSSFRow dataBaris = sheet.createRow(baris++);
+            Row dataBaris = sheet.createRow(baris++);
             dataBaris.createCell(0).setCellValue(karyawan.getId());
             dataBaris.createCell(1).setCellValue(karyawan.getNama());
             dataBaris.createCell(2).setCellValue(karyawan.getAlamat());

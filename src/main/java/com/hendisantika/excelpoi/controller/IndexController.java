@@ -2,8 +2,7 @@ package com.hendisantika.excelpoi.controller;
 
 import com.hendisantika.excelpoi.entity.Karyawan;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -23,12 +22,12 @@ import java.util.List;
 @Controller
 public class IndexController {
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String index() {
         return "index";
     }
 
-    @RequestMapping(value = "/dataKaryawan", method = RequestMethod.GET)
+    @GetMapping("/dataKaryawan")
     public ModelAndView downloadExcel() {
 
         List<Karyawan> karyawans = new ArrayList<Karyawan>();
@@ -46,7 +45,7 @@ public class IndexController {
         karyawans.add(new Karyawan("12", "Ema Sudibyo", "Banjarmain", "AiTi"));
         karyawans.add(new Karyawan("13", "Uzumaki Naruto", "Konohagakure", "AiTi"));
 
-        // excelView dengan data list karyawans akan diterima oleh resolver exvelView
+        // excelView dengan data list karyawans akan diterima oleh resolver excelView
         return new ModelAndView("excelView", "karyawans", karyawans);
     }
 
